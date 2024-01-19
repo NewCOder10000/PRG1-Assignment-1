@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using System.Drawing;
 using System.Reflection.Emit;
 
-namespace Class
+namespace Assignment
 {
     class Order
     {
@@ -20,6 +20,25 @@ namespace Class
             IceCreamList = ic;
         }
 
+        public ModifyIceCream(int id)
+        {
+
+        }
+
+        public AddIceCream(IceCream)
+        {
+
+        }
+
+        public DeleteIceCream(int id)
+        {
+
+        }
+
+        public double CalculateTotal()
+        {
+            return 
+        }
         public override string ToString()
         {
             return $"Order id: {id}, Time received: {TimeReceived}, Time Fulfilled: {TimeFulfilled}, ice creams: {IceCreamList}";
@@ -35,11 +54,21 @@ namespace Class
         public List<Order> OrderHistory { get; set; }
         public PointCard rewards { get; set; }
 
-        public Customer (string n, int mid, DateTime dob)
+        public Customer(string n, int mid, DateTime dob)
         {
             name = n;
             MemberID = mid;
             DOB = dob;
+        }
+
+        public Order MakeOrder()
+        {
+
+        }
+
+        public bool IsBirthday(DateTime dob)
+        {
+
         }
 
         public override string ToString()
@@ -59,6 +88,21 @@ namespace Class
             Points = ps;
             PunchCard = pc;
             Tier = tier;
+        }
+
+        public void AddPoints(int amount)
+        {
+            Points += amount;
+        }
+
+        public void RedeemPoints(int amount)
+        {
+            
+        }
+
+        public punch()
+        {
+
         }
 
         public override string ToString()
