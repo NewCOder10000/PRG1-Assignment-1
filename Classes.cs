@@ -20,25 +20,37 @@ namespace Assignment
             IceCreamList = ic;
         }
 
-        public ModifyIceCream(int id)
+        public ModifyIceCream(int index, IceCream iceCream)
         {
-
+            if (index >= 0 && index < IceCreamList.Count)
+        {
+            IceCreamList[index] = iceCream;
+        }
         }
 
         public AddIceCream(IceCream)
         {
-
+            IceCreamList.Add(iceCream);
         }
 
         public DeleteIceCream(int id)
         {
-
+             if (index >= 0 && index < IceCreamList.Count)
+             {
+            IceCreamList.RemoveAt(index);
+            }
         }
 
         public double CalculateTotal()
         {
-            return 
+        double total = 0;
+        foreach (var iceCream in IceCreamList)
+        {
+            total += iceCream.CalculatePrice();
         }
+        return total;
+        }
+
         public override string ToString()
         {
             return $"Order id: {id}, Time received: {TimeReceived}, Time Fulfilled: {TimeFulfilled}, ice creams: {IceCreamList}";
@@ -63,12 +75,12 @@ namespace Assignment
 
         public Order MakeOrder()
         {
-
+            return new Order();
         }
 
         public bool IsBirthday(DateTime dob)
         {
-
+            return false;
         }
 
         public override string ToString()
@@ -90,19 +102,19 @@ namespace Assignment
             Tier = tier;
         }
 
-        public void AddPoints(int amount)
+        public void AddPoints(int points)
         {
-            Points += amount;
+            Points += points;
         }
 
-        public void RedeemPoints(int amount)
+        public void RedeemPoints(int points)
         {
-            
+            Points -= points;
         }
 
         public punch()
         {
-
+            PunchCard++;
         }
 
         public override string ToString()
