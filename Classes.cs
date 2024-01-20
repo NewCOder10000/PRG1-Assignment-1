@@ -1,28 +1,58 @@
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Reflection.Emit;
 
-namespace Class
+namespace Classes
 {
     class Order
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public DateTime TimeReceived { get; set; }
         public DateTime? TimeFulfilled { get; set; }
         public List<IceCream> IceCreamList { get; set; }
 
-        public Order(int id, DateTime tr, DateTime? tf, List<IceCream> ic)
+        public Order(int id, DateTime tr)
         {
-            id = id;
+            Id = id;
             TimeReceived = tr;
-            TimeFulfilled = tf;
-            IceCreamList = ic;
+        }
+
+        public void ModifyIceCream(int index, IceCream iceCream)
+        {
+            if (index >= 0 && index < IceCreamList.Count)
+            {
+                IceCreamList[index] = iceCream;
+            }
+        }
+
+        public void AddIceCream(IceCream iceCream)
+        {
+            IceCreamList.Add(iceCream);
+        }
+
+        public void DeleteIceCream(int index)
+        {
+            if (index >= 0 && index < IceCreamList.Count)
+            {
+                IceCreamList.RemoveAt(index);
+            }
+        }
+
+        public double CalculateTotal()
+        {
+            double total = 0;
+            foreach (var iceCream in IceCreamList)
+            {
+                total += iceCream.CalculatePrice();
+            }
+            return total;
         }
 
         public override string ToString()
         {
-            return $"Order id: {id}, Time received: {TimeReceived}, Time Fulfilled: {TimeFulfilled}, ice creams: {IceCreamList}";
+            return $"Order id: {Id}, Time received: {TimeReceived}, Time Fulfilled: {TimeFulfilled}, ice creams: {IceCreamList}";
         }
     }
 
@@ -35,16 +65,30 @@ namespace Class
         public List<Order> OrderHistory { get; set; }
         public PointCard rewards { get; set; }
 
-        public Customer (string n, int mid, DateTime dob)
+        public Customer(string n, int mid, DateTime dob)
         {
             name = n;
             MemberID = mid;
             DOB = dob;
         }
 
+        public Order MakeOrder(int Id, DateTime timeReceived)
+        {
+            System.Console.WriteLine("Creating new Order");
+
+            Order newOrder = new Order(Id, timeReceived);
+
+            return newOrder;
+        }
+
+        public bool IsBirthday(DateTime dob)
+        {
+            return false;
+        }
+
         public override string ToString()
         {
-            return $"The customer name is {name}, his member id is {MemberID}, his date of birth is {DOB}";
+            return $"Name: {name}, MemberID: {MemberID}, Date of birth: {DOB}";
         }
     }
 
@@ -54,16 +98,30 @@ namespace Class
         public int PunchCard { get; set; }
         public string Tier { get; set; }
 
-        public PointCard(int ps, int pc, string tier)
+        public PointCard(int ps, int pc)
         {
             Points = ps;
             PunchCard = pc;
-            Tier = tier;
+        }
+
+        public void AddPoints(int points)
+        {
+            Points += points;
+        }
+
+        public void RedeemPoints(int points)
+        {
+            Points -= points;
+        }
+
+        public void punch()
+        {
+            PunchCard++;
         }
 
         public override string ToString()
         {
-            return $"Number of points {Points}, PunchCard number: {PunchCard}, PointCard tier: {Tier}";
+            return $"Tier: {Tier},  No. of points: {Points}, PunchCard: {PunchCard}";
         }
     }
 
