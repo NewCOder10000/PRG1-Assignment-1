@@ -2,25 +2,26 @@
 using System;
 using System.Drawing;
 using System.Reflection.Emit;
+using System.ComponentModel.DataAnnotations;
 
 namespace Class
 {
     class Order
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public DateTime TimeReceived { get; set; }
         public DateTime? TimeFulfilled { get; set; }
         public List<IceCream> IceCreamList { get; set; }
 
         public Order(int id, DateTime tr, DateTime? tf, List<IceCream> ic)
         {
-            id = id;
+            Id = id;
             TimeReceived = tr;
             TimeFulfilled = tf;
             IceCreamList = ic;
         }
 
-        public ModifyIceCream(int index, IceCream iceCream)
+        public void ModifyIceCream(int index, IceCream iceCream)
         {
             if (index >= 0 && index < IceCreamList.Count)
         {
@@ -28,12 +29,12 @@ namespace Class
         }
         }
 
-        public AddIceCream(IceCream)
+        public void AddIceCream(IceCream iceCream)
         {
             IceCreamList.Add(iceCream);
         }
 
-        public DeleteIceCream(int id)
+        public void DeleteIceCream(int index)
         {
              if (index >= 0 && index < IceCreamList.Count)
              {
@@ -53,7 +54,7 @@ namespace Class
 
         public override string ToString()
         {
-            return $"Order id: {id}, Time received: {TimeReceived}, Time Fulfilled: {TimeFulfilled}, ice creams: {IceCreamList}";
+            return $"Order id: {Id}, Time received: {TimeReceived}, Time Fulfilled: {TimeFulfilled}, ice creams: {IceCreamList}";
         }
     }
 
@@ -66,11 +67,14 @@ namespace Class
         public List<Order> OrderHistory { get; set; }
         public PointCard rewards { get; set; }
 
-        public Customer(string n, int mid, DateTime dob)
+        public Customer(string n, int mid, DateTime dob, Order co, List<Order> oh, PointCard r)
         {
             name = n;
             MemberID = mid;
             DOB = dob;
+            CurrentOrder = co;
+            OrderHistory = oh;
+            rewards = r;
         }
 
         public Order MakeOrder()
@@ -112,7 +116,7 @@ namespace Class
             Points -= points;
         }
 
-        public punch()
+        public void punch()
         {
             PunchCard++;
         }
