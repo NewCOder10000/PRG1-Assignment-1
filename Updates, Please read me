@@ -12,3 +12,4 @@
 # Fixed Wrong public Customer, public PointCard and public Order methods, 
 (Removed what should not have been there based on given class diagram).
 # I will update more things if needed.
+# All my future instructions will be here.
