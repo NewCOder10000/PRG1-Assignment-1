@@ -1,6 +1,6 @@
-# Added required csv files for the assignment, you can download them from politemall.
+# Added required csv files for the assignment into github, you can download them from politemall.
 (The enteredCustomers csv file is my own csv file, inside is the customer data i will enter if i test option 3 of the basic features.)
-# Added program file, what i did for my part i.e. features 1, 3, and 4 is in there. (To me: finish option 4 by Monday.)
+# Added program file into github, what i did for my part i.e. features 1, 3, and 4 is in there. (To me: finish option 4 by Monday.)
 # Fixed MakeOrder Method in Customer class.
 # Fixed Wrong public Customer, public PointCard and public Order methods, 
 (Removed what should not have been there based on given class diagram).
