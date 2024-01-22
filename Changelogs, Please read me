@@ -4,5 +4,6 @@
 # Fixed MakeOrder Method in Customer class.
 # Fixed Wrong public Customer, public PointCard and public Order methods, 
 (Removed what should not have been there based on given class diagram).
-# Add what you changed in your code here from now onwards, i will do the same. (For example: # Fixed while loop not breaking in option 4, # Completed features 2 and 5. Etc)
 # Fixed erroneous equation, i think (need to test in advanced feature to check if its fixed)
+# Completed basic features 1, 3 and 4.
+# Add what you changed in your code here from now onwards, i will do the same. (For example: # Fixed while loop not breaking in option 4, # Completed features 2 and 5. Etc)
