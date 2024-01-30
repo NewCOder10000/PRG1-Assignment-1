@@ -1,4 +1,11 @@
-﻿using System.Drawing;
+﻿//==========================================================
+// Student Number : S10257575
+// Student Name : Chen Jingyuan
+// Partner Name : Aarence
+//==========================================================
+
+using System.Data;
+using System.Drawing;
 using Classes;
 
 class Program
@@ -6,13 +13,19 @@ class Program
     public class InvalidOptionException : Exception
     {
         public InvalidOptionException()
-            : base("Invalid option. Must be between 0 and 6 inclusive.") { }
+            : base("Invalid option. Must be between 0 and 8 inclusive.") { }
     }
 
     public class InvalidScoopsException : Exception
     {
         public InvalidScoopsException()
             : base("There must be at least one scoop") { }
+    }
+
+    public class InvalidYearException : Exception
+    {
+        public InvalidYearException()
+            : base("Invalid year. Year must be between 2013 and 2034 inclusive.") { }
     }
 
     static void readCustomerData(List<Customer> CustomerList, List<PointCard> PointCardsList)
@@ -633,6 +646,367 @@ class Program
         System.Console.WriteLine("Order created successfully");
     }
 
+    static void DisplayCharged(
+        List<Flavour> FlavourList,
+        List<Topping> ToppingList,
+        List<IceCream> IceCreamList
+    )
+    {
+        DateTime TimeFulfilled = DateTime.MinValue;
+        string Option = "";
+        int Scoops = 0;
+        string Topping = "";
+        string Flavour = "";
+        int year = 0;
+        bool dipped = false;
+        string waffleFlavour = "";
+        double price = 0.0;
+        double JanPrice = 0.0;
+        double FebPrice = 0.0;
+        double MarPrice = 0.0;
+        double AprPrice = 0.0;
+        double MayPrice = 0.0;
+        double JunePrice = 0.0;
+        double JulyPrice = 0.0;
+        double AugPrice = 0.0;
+        double SepPrice = 0.0;
+        double OctPrice = 0.0;
+        double NovPrice = 0.0;
+        double DecPrice = 0.0;
+        double totalPrice = 0.0;
+        int MonthOnly = 0;
+        string Month = "";
+
+        string filePath = "orders.csv";
+        string[] lines = File.ReadAllLines(filePath);
+
+        while (true)
+        {
+            try
+            {
+                System.Console.WriteLine("Enter the year: ");
+                year = Convert.ToInt32(Console.ReadLine());
+
+                if (year < 2013 || year > 2034)
+                {
+                    throw new InvalidYearException();
+                }
+
+                break;
+            }
+            catch (FormatException)
+            {
+                System.Console.WriteLine(
+                    "FormatException a occurred, please do not enter a string, only enter a integer between 0 and 6 inclusive."
+                );
+                continue;
+            }
+            catch (InvalidOptionException a)
+            {
+                Console.WriteLine($"InvalidYearException: {a.Message}");
+                continue;
+            }
+            catch (Exception)
+            {
+                System.Console.WriteLine("Something went wrong!");
+                continue;
+            }
+        }
+
+        for (int lineIndex = 1; lineIndex < lines.Length; lineIndex++)
+        {
+            FlavourList.Clear();
+            ToppingList.Clear();
+
+            string line = lines[lineIndex];
+
+            string[] data = line.Split(',');
+
+            string option = data[4].Trim().ToLower();
+
+            TimeFulfilled = Convert.ToDateTime(data[3].Trim());
+            MonthOnly = Convert.ToDateTime(data[3].Trim()).Month;
+            int time = TimeFulfilled.Year;
+
+            switch (MonthOnly)
+            {
+                case 1:
+                    Month = "Jan";
+                    break;
+                case 2:
+                    Month = "Feb";
+                    break;
+                case 3:
+                    Month = "Mar";
+                    break;
+                case 4:
+                    Month = "Apr";
+                    break;
+                case 5:
+                    Month = "May";
+                    break;
+                case 6:
+                    Month = "June";
+                    break;
+                case 7:
+                    Month = "July";
+                    break;
+                case 8:
+                    Month = "Aug";
+                    break;
+                case 9:
+                    Month = "Sep";
+                    break;
+                case 10:
+                    Month = "Oct";
+                    break;
+                case 11:
+                    Month = "Nov";
+                    break;
+                case 12:
+                    Month = "Dec";
+                    break;
+            }
+            if (time != year)
+            {
+                continue;
+            }
+            else
+            {
+                FlavourList.Clear();
+                ToppingList.Clear();
+
+                if (option == "cup")
+                {
+                    Scoops = Convert.ToInt32(data[5].Trim());
+
+                    for (int i = 8; i <= 10; i++)
+                    {
+                        string flavour = data[i].Trim().ToLower();
+                        if (!string.IsNullOrEmpty(flavour))
+                        {
+                            if (flavour == "durian" || flavour == "ube" || flavour == "sea salt")
+                            {
+                                Flavour newflavour = new Flavour(flavour, true, Scoops);
+                                FlavourList.Add(newflavour);
+                            }
+                            else if (
+                                flavour == "vanilla"
+                                || flavour == "chocolate"
+                                || flavour == "strawberry"
+                            )
+                            {
+                                Flavour newflavour = new Flavour(flavour, false, Scoops);
+                                FlavourList.Add(newflavour);
+                            }
+                        }
+                    }
+
+                    for (int i = 11; i <= 14; i++)
+                    {
+                        string topping = data[i].Trim();
+                        if (!string.IsNullOrEmpty(topping))
+                        {
+                            Topping newTopping = new Topping(topping);
+                            ToppingList.Add(newTopping);
+                        }
+                    }
+                    IceCream newIceCream1 = new Cup(option, Scoops, FlavourList, ToppingList);
+                    price = newIceCream1.CalculatePrice();
+                }
+                else if (option == "cone")
+                {
+                    dipped = Convert.ToBoolean(data[6].Trim().ToLower());
+                    Scoops = Convert.ToInt32(data[5].Trim());
+
+                    for (int i = 8; i <= 10; i++)
+                    {
+                        string flavour = data[i].Trim().ToLower();
+                        if (!string.IsNullOrEmpty(flavour))
+                        {
+                            if (flavour == "durian" || flavour == "ube" || flavour == "sea salt")
+                            {
+                                Flavour newflavour = new Flavour(flavour, true, Scoops);
+                                FlavourList.Add(newflavour);
+                            }
+                            else if (
+                                flavour == "vanilla"
+                                || flavour == "chocolate"
+                                || flavour == "strawberry"
+                            )
+                            {
+                                Flavour newflavour = new Flavour(flavour, false, Scoops);
+                                FlavourList.Add(newflavour);
+                            }
+                        }
+                    }
+
+                    for (int i = 11; i <= 14; i++)
+                    {
+                        string topping = data[i].Trim();
+                        if (!string.IsNullOrEmpty(topping))
+                        {
+                            Topping newTopping = new Topping(topping);
+                            ToppingList.Add(newTopping);
+                        }
+                    }
+
+                    IceCream newIceCream1 = new Cone(
+                        option,
+                        Scoops,
+                        FlavourList,
+                        ToppingList,
+                        dipped
+                    );
+                    price = newIceCream1.CalculatePrice();
+                }
+                else if (option == "waffle")
+                {
+                    Scoops = Convert.ToInt32(data[5].Trim());
+                    waffleFlavour = data[7].Trim();
+
+                    for (int i = 8; i <= 10; i++)
+                    {
+                        string flavour = data[i].Trim().ToLower();
+                        if (!string.IsNullOrEmpty(flavour))
+                        {
+                            if (flavour == "durian" || flavour == "ube" || flavour == "sea salt")
+                            {
+                                Flavour newflavour = new Flavour(flavour, true, Scoops);
+                                FlavourList.Add(newflavour);
+                            }
+                            else if (
+                                flavour == "vanilla"
+                                || flavour == "chocolate"
+                                || flavour == "strawberry"
+                            )
+                            {
+                                Flavour newflavour = new Flavour(flavour, false, Scoops);
+                                FlavourList.Add(newflavour);
+                            }
+                        }
+                    }
+
+                    for (int i = 11; i <= 14; i++)
+                    {
+                        string topping = data[i].Trim();
+                        if (!string.IsNullOrEmpty(topping))
+                        {
+                            Topping newTopping = new Topping(topping);
+                            ToppingList.Add(newTopping);
+                        }
+                    }
+
+                    IceCream newIceCream1 = new Waffle(
+                        option,
+                        Scoops,
+                        FlavourList,
+                        ToppingList,
+                        waffleFlavour
+                    );
+                    price = newIceCream1.CalculatePrice();
+                }
+            }
+
+            switch (Month)
+            {
+                case "Jan":
+                    JanPrice += price;
+                    break;
+                case "Feb":
+                    FebPrice += price;
+                    break;
+                case "Mar":
+                    MarPrice += price;
+                    break;
+                case "Apr":
+                    AprPrice += price;
+                    break;
+                case "May":
+                    MayPrice += price;
+                    break;
+                case "June":
+                    JunePrice += price;
+                    break;
+                case "July":
+                    JulyPrice += price;
+                    break;
+                case "Aug":
+                    AugPrice += price;
+                    break;
+                case "Sep":
+                    SepPrice += price;
+                    break;
+                case "Oct":
+                    OctPrice += price;
+                    break;
+                case "Nov":
+                    NovPrice += price;
+                    break;
+                case "Dec":
+                    DecPrice += price;
+                    break;
+            }
+            totalPrice += price;
+        }
+
+        for (int i = 1; i <= 12; i++)
+        {
+            switch (i)
+            {
+                case 1:
+                    System.Console.WriteLine($"Jan {year}: ${JanPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 2:
+                    System.Console.WriteLine($"Feb {year}: ${FebPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 3:
+                    System.Console.WriteLine($"March {year}: ${MarPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 4:
+                    System.Console.WriteLine($"Apr {year}: ${AprPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 5:
+                    System.Console.WriteLine($"May {year}: ${MayPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 6:
+                    System.Console.WriteLine($"June {year}: ${JunePrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 7:
+                    System.Console.WriteLine($"July {year}: ${JulyPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 8:
+                    System.Console.WriteLine($"Aug {year}: ${AugPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 9:
+                    System.Console.WriteLine($"Sep {year}: ${SepPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 10:
+                    System.Console.WriteLine($"Oct {year}: ${OctPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 11:
+                    System.Console.WriteLine($"Nov {year}: ${NovPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+                case 12:
+                    System.Console.WriteLine($"Dec {year}: ${DecPrice.ToString("F2")}");
+                    System.Console.WriteLine();
+                    break;
+            }
+        }
+        System.Console.WriteLine($"Total: {totalPrice.ToString("F2")}");
+    }
+
     static void Menu()
     {
         System.Console.WriteLine("------------------Menu------------------");
@@ -642,6 +1016,8 @@ class Program
         System.Console.WriteLine("[4] Create a customer's order");
         System.Console.WriteLine("[5] Display order detail of a customer");
         System.Console.WriteLine("[6] Modify Order details");
+        System.Console.WriteLine("[7] Checkout");
+        System.Console.WriteLine("[8] Display Charged");
         System.Console.WriteLine("[0] Exit");
         System.Console.WriteLine("----------------------------------------");
     }
@@ -672,7 +1048,7 @@ class Program
                 System.Console.WriteLine("Enter option: ");
                 option = Convert.ToInt32(Console.ReadLine());
 
-                if (option < 0 || option > 6)
+                if (option < 0 || option > 8)
                 {
                     throw new InvalidOptionException();
                 }
@@ -724,6 +1100,11 @@ class Program
                 case 5:
                     break;
                 case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    DisplayCharged(FlavourList, ToppingList, IceCreamList);
                     break;
                 case 0:
                     loop = false;

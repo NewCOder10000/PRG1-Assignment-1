@@ -196,35 +196,32 @@ namespace Classes
 
         public override double CalculatePrice()
         {
-            double totalPrice = 0.0;
+            double basePrice = 4.00;
+            double scoopsAsDouble = Convert.ToDouble(scoops);
+            double price = 0.00;
 
             foreach (Flavour flavor in flavours)
             {
                 if (flavor.premium)
                 {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price =
-                        4.00
-                        + (1.50 * scoopsAsDouble)
-                        + (2.00 * scoopsAsDouble)
-                        + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for {flavor.type} with {scoops} scoops and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
-                }
-                else
-                {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price = 4.00 + (1.50 * scoopsAsDouble) + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for premium {flavor.type} with {scoops} scoops and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
+                    basePrice += 2.00;
                 }
             }
 
-            return totalPrice;
+            if (scoops == 1)
+            {
+                price = basePrice + (toppings.Count * 1.00);
+            }
+            else if (scoops == 2)
+            {
+                price = basePrice + ((1.50 * scoopsAsDouble) - 1.50) + (toppings.Count * 1.00);
+            }
+            else
+            {
+                price = basePrice + ((1.50 * scoopsAsDouble) - 2.00) + (toppings.Count * 1.00);
+            }
+
+            return Convert.ToDouble(price.ToString("F2"));
         }
 
         public override string ToString()
@@ -253,55 +250,41 @@ namespace Classes
 
         public override double CalculatePrice()
         {
-            double totalPrice = 0.0;
+            double basePrice = 0.00;
+            double scoopsAsDouble = Convert.ToDouble(scoops);
+            double price = 0.00;
+
+            if (dipped)
+            {
+                basePrice = 6.00;
+            }
+            else
+            {
+                basePrice = 4.00;
+            }
 
             foreach (Flavour flavor in flavours)
             {
-                if (flavor.premium && dipped == true)
+                if (flavor.premium)
                 {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price =
-                        (4.00 + (1.50 * scoopsAsDouble) + (2.00 * scoopsAsDouble))
-                        + 2.00
-                        + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for premium {flavor.type} with {scoops} scoops and chocolate dipped cone and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
-                }
-                else if (flavor.premium && dipped == false)
-                {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price =
-                        4.00
-                        + (1.50 * scoopsAsDouble)
-                        + (2.00 * scoopsAsDouble)
-                        + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for {flavor.type} with {scoops} scoops and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
-                }
-                else if (!flavor.premium && dipped == true)
-                {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price = 4.00 + (1.50 * scoopsAsDouble) + 2.00 + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for {flavor.type} with {scoops} scoops and chocolate dipped cone and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
-                }
-                else
-                {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price = 4.00 + (1.50 * scoopsAsDouble) + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for {flavor.type} with {scoops} scoops and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
+                    basePrice += 2.00;
                 }
             }
-            return totalPrice;
+
+            if (scoops == 1)
+            {
+                price = basePrice + (toppings.Count * 1.00);
+            }
+            else if (scoops == 2)
+            {
+                price = basePrice + ((1.50 * scoopsAsDouble) - 1.50) + (toppings.Count * 1.00);
+            }
+            else
+            {
+                price = basePrice + ((1.50 * scoopsAsDouble) - 2.00) + (toppings.Count * 1.00);
+            }
+
+            return Convert.ToDouble(price.ToString("F2"));
         }
 
         public override string ToString()
@@ -330,63 +313,45 @@ namespace Classes
 
         public override double CalculatePrice()
         {
-            double totalPrice = 0.0;
+            double basePrice = 0.00;
+            double scoopsAsDouble = Convert.ToDouble(scoops);
+            double price = 0.00;
+
+            if (
+                waffleFlavour.ToLower() == "red velvet"
+                || waffleFlavour.ToLower() == "charcoal"
+                || waffleFlavour.ToLower() == "pandan"
+            )
+            {
+                basePrice = 10.00;
+            }
+            else
+            {
+                basePrice = 7.00;
+            }
 
             foreach (Flavour flavor in flavours)
             {
-                if (
-                    flavor.premium && waffleFlavour == "Red Velvet"
-                    || waffleFlavour == "Charcoal"
-                    || waffleFlavour == "Pandan"
-                )
+                if (flavor.premium)
                 {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price =
-                        (4.00 + (1.50 * scoopsAsDouble) + (2.00 * scoopsAsDouble))
-                        + 3.00
-                        + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for premium {flavor.type} with {scoops} scoops and the waffle flavour {waffleFlavour} and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
-                }
-                else if (flavor.premium && waffleFlavour == "Original")
-                {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price =
-                        4.00
-                        + (1.50 * scoopsAsDouble)
-                        + (2.00 * scoopsAsDouble)
-                        + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for {flavor.type} with {scoops} scoops and the waffle flavour {waffleFlavour} and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
-                }
-                else if (
-                    !flavor.premium && waffleFlavour == "Red Velvet"
-                    || waffleFlavour == "Charcoal"
-                    || waffleFlavour == "Pandan"
-                )
-                {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price = 4.00 + (1.50 * scoopsAsDouble) + 3.00 + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for {flavor.type} with {scoops} scoops and the waffle flavour {waffleFlavour} and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
-                }
-                else
-                {
-                    double scoopsAsDouble = Convert.ToDouble(scoops);
-                    double price = 4.00 + (1.50 * scoopsAsDouble) + (toppings.Count * 1.00);
-                    Console.WriteLine(
-                        $"Price for {flavor.type} with {scoops} scoops and the waffle flavour {waffleFlavour} and these toppings{toppings}: {price.ToString("F2")}"
-                    );
-                    totalPrice += price;
+                    basePrice += 2.00;
                 }
             }
-            return totalPrice;
+
+            if (scoops == 1)
+            {
+                price = basePrice + (toppings.Count * 1.00);
+            }
+            else if (scoops == 2)
+            {
+                price = basePrice + ((1.50 * scoopsAsDouble) - 1.50) + (toppings.Count * 1.00);
+            }
+            else
+            {
+                price = basePrice + ((1.50 * scoopsAsDouble) - 2.00) + (toppings.Count * 1.00);
+            }
+
+            return Convert.ToDouble(price.ToString("F2"));
         }
 
         public override string ToString()
